@@ -4,7 +4,7 @@
 
 # This projekt will be updated as soon as new functions for the Methode are researched and implemented
 
-# Strukture:
+# Structure:
 
 
   # -----
