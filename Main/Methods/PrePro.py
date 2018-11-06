@@ -1,3 +1,6 @@
+import numpy as np
+
+
 def dummy_fill(matrix):
     """
     For cardinality differences the smaller data set (represented by rows and columns) is filled with the max. occurring
@@ -38,9 +41,10 @@ def distances(data_set_1, data_set_2, weight_l, weight_o, weight_d , weight_s, w
     :param weight_e: weighting factor regarding end point distance
     :return: Interval distance matrix, where M[i,j] means distance between interval i (data set 1) and j (data set 2)
     """
-    result_matrix = []
-    for interval_i in data_set_1:
-        for interval_j in data_set_2:
+    result_matrix = np.zeros((len(data_set_1), len(data_set_2))).tolist()
+
+    for index_i, interval_i in enumerate(data_set_1):
+        for index_j, interval_j in enumerate(data_set_2):
             try:
                 S = 0
                 D = 0
@@ -54,9 +58,8 @@ def distances(data_set_1, data_set_2, weight_l, weight_o, weight_d , weight_s, w
                     S = min(e_1, e_2) - max(s_1, s_2)
                 else:
                     D = min(abs(s_1 - e_2), abs(s_2 - e_1))
-
-                result_matrix[interval_i][interval_j] = weight_l * (1 - (float(min((e_1 - s_1), (e_2 - s_2))) / float(max((e_1 - s_1), (e_2 - s_2))))) + weight_s * float(abs(s_2 - s_1)) / float(G) + weight_e * float(abs(e_2 - e_1)) / float(G) + weight_d * float(D) / float(G) + weight_o * (1 - (float(S) / float(min(float(abs(e_2 - s_2)), float(abs(e_1 - s_1))))))
-            except: print("error")
+                result_matrix[index_i][index_j] = weight_l * (1 - (float(min((e_1 - s_1), (e_2 - s_2))) / float(max((e_1 - s_1), (e_2 - s_2))))) + weight_s * float(abs(s_2 - s_1)) / float(G) + weight_e * float(abs(e_2 - e_1)) / float(G) + weight_d * float(D) / float(G) + weight_o * (1 - (float(S) / float(min(float(abs(e_2 - s_2)), float(abs(e_1 - s_1))))))
+            except Exception as e: print("error", e)
     return result_matrix
 
 

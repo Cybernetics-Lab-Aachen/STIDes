@@ -1,6 +1,6 @@
 import numpy as np
 import munkres as munk
-from Methods import PrePro as pre
+from Main.Methods import PrePro as pre
 
 
 def get_similarity(matrix):
