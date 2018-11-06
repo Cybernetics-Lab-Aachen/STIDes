@@ -29,7 +29,7 @@ def dummy_fill(matrix):
     return new_matrix
 
 
-def distances(data_set_1, data_set_2, weight_l, weight_o, weight_d , weight_s, weight_e):
+def distances(data_set_1, data_set_2, weight_l, weight_o, weight_d, weight_s, weight_e):
     """
     generating the interval distance matrix
     :param data_set_1: time interval data set one
@@ -58,8 +58,13 @@ def distances(data_set_1, data_set_2, weight_l, weight_o, weight_d , weight_s, w
                     S = min(e_1, e_2) - max(s_1, s_2)
                 else:
                     D = min(abs(s_1 - e_2), abs(s_2 - e_1))
-                result_matrix[index_i][index_j] = weight_l * (1 - (float(min((e_1 - s_1), (e_2 - s_2))) / float(max((e_1 - s_1), (e_2 - s_2))))) + weight_s * float(abs(s_2 - s_1)) / float(G) + weight_e * float(abs(e_2 - e_1)) / float(G) + weight_d * float(D) / float(G) + weight_o * (1 - (float(S) / float(min(float(abs(e_2 - s_2)), float(abs(e_1 - s_1))))))
-            except Exception as e: print("error", e)
+                result_matrix[index_i][index_j] = weight_l * (
+                1 - (float(min((e_1 - s_1), (e_2 - s_2))) / float(max((e_1 - s_1), (e_2 - s_2))))) + weight_s * float(
+                    abs(s_2 - s_1)) / float(G) + weight_e * float(abs(e_2 - e_1)) / float(G) + weight_d * float(
+                    D) / float(G) + weight_o * (
+                1 - (float(S) / float(min(float(abs(e_2 - s_2)), float(abs(e_1 - s_1))))))
+            except Exception as e:
+                print("error", e)
     return result_matrix
 
 
@@ -110,7 +115,7 @@ def get_scaling_factors(data_set_1, data_set_2):
             factor_2 = s_1 / s_2
             factor_3 = e_1 / e_2
             factor_4 = s_1 / e_2
-            factor_5 = (e_1 - s_1)/(e_2 - s_2)
+            factor_5 = (e_1 - s_1) / (e_2 - s_2)
             if factor_1 not in scaling_factors:
                 scaling_factors.append(factor_1)
             if factor_2 not in scaling_factors:
@@ -141,3 +146,17 @@ def get_best_similarity_data1(matrix, rows):
 def get_best_similarity_data2(matrix, columns):
     result = min([i[columns] for i in matrix])
     return result
+
+
+def shift_dataset(data_set, factor):
+    new_set = []
+    for j in data_set:
+        new_set.append([j[0] + factor, j[1] + factor])
+    return new_set
+
+
+def scale_dataset(data_set, factor):
+    new_set = []
+    for j in data_set:
+        new_set.append([j[0] * factor, j[1] * factor])
+    return new_set
